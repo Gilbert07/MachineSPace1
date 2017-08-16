@@ -14,7 +14,7 @@
 <%
     HttpSession misesion = request.getSession();
     if (misesion.getAttribute("User") == null) {
-            misesion.invalidate();
+        misesion.invalidate();
 %>
 <script>location.replace("AdminCatalogo.jsp");</script>
 <% } else { %>
@@ -51,22 +51,31 @@
     String Direccion = "";
     String Ciudad = "";
     String TipoDocumento = "";
+    String Rol = "Cliente";
 
     try {
-        rs = puente.executeQuery("select * from cliente where Cedula ='" + numeroid + "';");
+        rs = puente.executeQuery("select * from cliente where Cedula ='" + numeroid + "' and ya  ;");
         while (rs.next()) {
 
-            nombreCliente = rs.getString("Nombre");
-            apellidoCliente = rs.getString("Apellido");
-            documentoCliente = rs.getString("Cedula");
-            Telefono = rs.getString("Telefono");
-            FechaNa = rs.getString("Fecha_Nacimiento");
-            Email = rs.getString("Email");
-            Estado = rs.getString("Estado");
-            Direccion = rs.getString("Direccion");
-            Ciudad = rs.getString("Ciudad");
-            TipoDocumento = rs.getString("Tipo_Documento");
+           
+                 nombreCliente = rs.getString("Nombre");
+                apellidoCliente = rs.getString("Apellido");
+                documentoCliente = rs.getString("Cedula");
+                Telefono = rs.getString("Telefono");
+                FechaNa = rs.getString("Fecha_Nacimiento");
+                Email = rs.getString("Email");
+                Estado = rs.getString("Estado");
+                Direccion = rs.getString("Direccion");
+                Ciudad = rs.getString("Ciudad");
+                TipoDocumento = rs.getString("Tipo_Documento");
+                 
 
+
+               
+                
+               
+
+            
         }
 
     } catch (Exception e) {
@@ -98,8 +107,8 @@
         <link rel="stylesheet" href="css/style.css">
 
         <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
-        
-       
+
+
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -353,12 +362,12 @@
                             <label class="form__field">Estado</label> 
                         </div>
                         <div class="col-md-4"  >
-                            
-                             
 
 
 
-                            
+
+
+
                             <%
                                 rs = puente.executeQuery("SELECT estados.idEstado, estados.Estado , cliente.Cedula FROM `estados` INNER JOIN cliente on estados.idEstado = cliente.Estado WHERE cliente.Cedula = '" + numeroid + "' ");
                                 if (rs.next()) {
@@ -391,7 +400,7 @@
                                     }
 
                                 %>
-                                
+
 
                             </select>
                         </div>
