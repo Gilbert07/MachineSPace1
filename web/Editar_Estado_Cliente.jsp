@@ -54,7 +54,7 @@
     String Rol = "Cliente";
 
     try {
-        rs = puente.executeQuery("select * from cliente where Cedula ='" + numeroid + "' and ya  ;");
+        rs = puente.executeQuery("select * from cliente where Cedula ='" + numeroid + "'  ;");
         while (rs.next()) {
 
            
