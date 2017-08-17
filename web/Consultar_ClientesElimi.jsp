@@ -211,7 +211,7 @@
         <%
             try {
 
-                rs = puente.executeQuery("SELECT * FROM cliente INNER JOIN ciudades on cliente.Ciudad = ciudades.IdCiudad INNER JOIN estados on cliente.Estado = estados.idEstado ");
+                rs = puente.executeQuery("SELECT * FROM cliente INNER JOIN ciudades on cliente.Ciudad = ciudades.IdCiudad INNER JOIN estados on cliente.Estado = estados.idEstado INNER JOIN documento on cliente.Tipo_Documento = documento.idDocumento  ");
 
                 while (rs.next()) {
 
@@ -223,7 +223,7 @@
         <tr>
 
             <td>
-                <label><% out.println(rs.getString("cliente.Tipo_Documento")); %></label>
+                <label><% out.println(rs.getString("documento.Tipo_Documento")); %></label>
             </td>
 
 

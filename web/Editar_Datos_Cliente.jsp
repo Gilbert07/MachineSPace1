@@ -207,10 +207,10 @@
                                 <%
                                     try {
 
-                                        rs = puente.executeQuery("Select Tipo_Documento from cliente ");
+                                        rs = puente.executeQuery("Select * from cliente inner join documento on cliente.Tipo_Documento = documento.idDocumento ");
                                         while (rs.next()) {
                                 %>
-                                <option value="<%=TipoDocumento%>"><%= rs.getString("Tipo_Documento")%></option>
+                                <option value="<%=TipoDocumento%>"><%= rs.getString("documento.Tipo_Documento")%></option>
                                 <%
                                     }
                                 } catch (Exception e) {

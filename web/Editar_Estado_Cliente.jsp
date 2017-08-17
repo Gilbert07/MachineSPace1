@@ -231,14 +231,14 @@
                             <%
                                 try {
 
-                                    rs = puente.executeQuery("Select Tipo_Documento from Cliente where Cedula ='" + numeroid + "'");
+                                    rs = puente.executeQuery("Select * from Cliente inner join documento on cliente.Tipo_Documento = documento.idDocumento where Cedula ='" + numeroid + "'");
                             %>
                             <select  name="textTipoDoc"  class="form-control" style="position:absolute;left:1%;top:100%;width: 335px"  disabled   >
 
                                 <%
                                     while (rs.next()) {
 
-                                        String Tipo_Documento = rs.getString("Tipo_Documento");
+                                        String Tipo_Documento = rs.getString("documento.Tipo_Documento");
 
 
                                 %>

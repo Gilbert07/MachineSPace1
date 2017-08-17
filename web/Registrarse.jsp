@@ -40,6 +40,35 @@
 
         <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
 
+        <SCRIPT LANGUAGE="JavaScript">
+            function validar_clave() {
+                var caract_invalido = " ";
+                var caract_longitud = 6;
+                var cla1 = document.mi_formulario.textCodigo.value;
+                var cla2 = document.mi_formulario.textCodigo1.value;
+                if (cla1 == '' || cla2 == '') {
+                    alert('Debes introducir tu clave en los dos campos.');
+                    return false;
+                }
+                if (document.mi_formulario.textCodigo.value.length < caract_longitud) {
+                    alert('Tu clave debe constar de ' + caract_longitud + ' caracteres.');
+                    return false;
+                }
+                if (document.mi_formulario.textCodigo.value.indexOf(caract_invalido) > -1) {
+                    alert("Las claves no pueden contener espacios");
+                    return false;
+                } else {
+                    if (cla1 != cla2) {
+                        alert("Las claves introducidas no son iguales");
+                        return false;
+                    } else {
+                        alert('Contraeña correcta');
+                        return true;
+                    }
+                }
+            }
+        </script>
+
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -124,7 +153,7 @@
                         <li>
                             <a></a>
                         </li>
-                       
+
                         <li>
                             <a></a>
                         </li>
@@ -147,7 +176,7 @@
                             <a></a>
                         </li>
                         <li>
-                             <a></a>
+                            <a></a>
                         </li>
                         <li>
                             <a href="Registrarse.jsp">Registrarse</a>
@@ -166,26 +195,35 @@
 
         <div class="grid">
 
-            <form action="ServletCliente" method="post" class="form login">
+            <form action="ServletCliente" method="post" class="form login" name="mi_formulario" onSubmit="return validar_clave()">
 
                 <header class="login__header">
                     <h3 class="login__title">Registro</h3>
                 </header>
 
-                <div class="form__field" >
-                    <div>
-                        <label class="form__field">Tipo documento</label> 
-                    </div>
-                    <div class="col-md-4"  >
-                        <select  name="textTipoDoc"  class="form-control" style="position:absolute;left:1%;top:100%;width: 335px" required>
-                            <option> Elija Una Opcion</option>
-                            <option value="Cedula de ciudadania">Cedula de ciudadania</option>
-                            <option value="Pasaporte">Pasaporte</option>
-                            <option value="Cedula extranjera">Cedula extranjera</option>
-                            
+                <div class="form__field">
+                    <label class="form__field" >Tipo Documento</label> 
+                    <div class="form__field">
+                        <select id="Marca" name="textTipoDoc" class="form-control"><br>
+                            <%
+                                try {
+
+                                    Rs = Puente.executeQuery("select * from documento");
+                                    while (Rs.next()) {
+                            %>
+
+                            <option value="<%=Rs.getString("idDocumento")%>"><%=Rs.getString("Tipo_Documento")%></option>
+                            <%
+                                }
+                            } catch (Exception e) {
+                            %>
+                            <option value="">No se encontró ningun dato</option>
+                            <%
+                                }
+                            %>
                         </select>
                     </div>
-                </div><br><br><br>
+                </div><br>
 
                 <div class="form__field">
                     <label class="form__field" >Cedula</label>  
@@ -210,28 +248,28 @@
 
 
                 <div class="form__field">
-                <label class="form__field" for="Ciudad">Ciudad</label> 
-                <div class="form__field">
-                    <select id="Marca" name="textCiudad" class="form-control"><br>
-                        <%
-                            try {
+                    <label class="form__field" for="Ciudad">Ciudad</label> 
+                    <div class="form__field">
+                        <select id="Marca" name="textCiudad" class="form-control"><br>
+                            <%
+                                try {
 
-                                Rs = Puente.executeQuery("select * from ciudades");
-                                while (Rs.next()) {
-                        %>
+                                    Rs = Puente.executeQuery("select * from ciudades");
+                                    while (Rs.next()) {
+                            %>
 
-                        <option value="<%=Rs.getString("idCiudad")%>"><%=Rs.getString("Ciudad")%></option>
-                        <%
-                            }
-                        } catch (Exception e) {
-                        %>
-                        <option value="">No se encontró ningun dato</option>
-                        <%
-                            }
-                        %>
-                    </select>
-                </div>
-            </div><br>
+                            <option value="<%=Rs.getString("idCiudad")%>"><%=Rs.getString("Ciudad")%></option>
+                            <%
+                                }
+                            } catch (Exception e) {
+                            %>
+                            <option value="">No se encontró ningun dato</option>
+                            <%
+                                }
+                            %>
+                        </select>
+                    </div>
+                </div><br>
 
                 <div class="form__field">
                     <label class="form__field" >Direccion</label>  
@@ -266,9 +304,19 @@
                     <div class="form__field">
                         <input  name="textCodigo" type="password" placeholder="Contraseña" class="form-control input-md" required >    
                     </div>
+                </div><br>
+
+
+
+
+                <div class="form__field">
+                    <label class="form__field" >Repita Contraseña</label>  
+                    <div class="form__field">
+                        <input type="password" placeholder="Contraseña" name="textCodigo1" class="form-control input-md" required >    
+                    </div>
                 </div>
 
-                
+
                 <div class="form__field">
                     <select id="Marca" name="textEstado" class="form-control" style="visibility: hidden"   disabled required ><br>
                         <%
@@ -289,10 +337,10 @@
                         %>
                     </select>
                 </div><br>
-                
-                
-                
-                
+
+
+
+
                 <div class="form__field">
 
                     <div class="form__field">
@@ -300,61 +348,61 @@
                     </div>
                 </div><br>
 
-            <input type="checkbox" id="c1" name="c1" />
-            <label for="c1"><span></span>Acepto <a href="#">Terminos Y Condiciones</a> </label>
+                <input type="checkbox" id="c1" name="c1" />
+                <label for="c1"><span></span>Acepto <a href="#">Terminos Y Condiciones</a> </label>
 
-            <script language="javascript">
-                $(document).ready(function () {
-                    $("#Registrarse").on("click", function () {
-                        var condiciones = $("#c1").is(":checked");
-                        if (!condiciones) {
-                            alert("Debe Aceptar Los Terminos Y Condiciones");
-                            event.preventDefault();
-                        }
+                <script language="javascript">
+                    $(document).ready(function () {
+                        $("#Registrarse").on("click", function () {
+                            var condiciones = $("#c1").is(":checked");
+                            if (!condiciones) {
+                                alert("Debe Aceptar Los Terminos Y Condiciones");
+                                event.preventDefault();
+                            }
+                        });
                     });
-                });
-            </script><br>
+                </script><br>
 
-        </div>
-        <footer class="login__footer">                   
-            <button id="Registrarse" name="Registrarse" class="btn btn-success" style="position:absolute;left:46%;top:144%;">Registrarse
-                <input type="hidden" name="opcion" value="1"></button>
-        </footer>
-    </form>
+                </div>
+                <footer class="login__footer">                   
+                    <button id="Registrarse" name="Registrarse" class="btn btn-success" style="position:absolute;left:46%;top:144%;">Registrarse
+                        <input type="hidden" name="opcion" value="1"></button>
+                </footer>
+            </form>
 
 
-<% if (request.getAttribute("error") != null) { %>
-${error}
-<% } else {%>
-${exito}
-<% }%>
+            <% if (request.getAttribute("error") != null) { %>
+            ${error}
+            <% } else {%>
+            ${exito}
+            <% }%>
 
-<!-- /.container -->
+            <!-- /.container -->
 
-<div class="container">
+            <div class="container">
 
-    <hr>
+                <hr>
 
-    <!-- Footer -->
-    <footer>
-        <div class="row">
-            <div class="col-lg-12">
-                <p>MachineSpace</p>
+                <!-- Footer -->
+                <footer>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <p>MachineSpace</p>
+                        </div>
+                    </div>
+                </footer>
+
             </div>
-        </div>
-    </footer>
+            <!-- /.container -->
 
-</div>
-<!-- /.container -->
+            <!-- jQuery -->
 
-<!-- jQuery -->
+            <script src="js/jquery.js"></script>
 
-<script src="js/jquery.js"></script>
+            <!-- Bootstrap Core JavaScript -->
+            <script src="js/bootstrap.min.js"></script>
 
-<!-- Bootstrap Core JavaScript -->
-<script src="js/bootstrap.min.js"></script>
-
-</body>
+    </body>
 
 </html>
 
