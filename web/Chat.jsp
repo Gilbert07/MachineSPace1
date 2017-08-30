@@ -1,47 +1,133 @@
 
 
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%@page import="Utils.Conexion"%>
 
-<%@page import="Proyecto.Dao.Sesiones"%>
+<%@page import="Proyecto.Bean.BeanCliente"%>
+
+
 
 <!DOCTYPE HTML>
 <html>
 <head>
 <meta charset="utf-8">
-<title>Chat Mesinger</title>
-<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+<title>Chat Messenger</title>
+<<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.8.19.custom.min.js"></script>
 <script type="text/javascript" src="js/jquery.scrollTo.js"></script>
 <link href="css/jquery-ui-1.8.19.custom.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="js/funciones.js"></script>
 <link href="style.css" rel="stylesheet" type="text/css">
+
+<!-- Bootstrap Core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="css/shop-homepage.css" rel="stylesheet">
+
+
+
+
 </head>
 <%
-Sesiones.comprobarUsuario(request.getSession().getAttribute("userId").toString());
+    
+HttpSession misesion = request.getSession();
+    if (misesion.getAttribute("User") == null) {%>
+<script>location.replace("index.jsp");</script>
+<% }else{
+    
+
+%> 
+
+<%!
+    
+    BeanCliente BE = new BeanCliente();
+
+%>
+<%
+    BE = (BeanCliente) misesion.getAttribute("User");
 %>
 <body>
+    
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="Catalogo.jsp">Catalogo</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="Publicar.jsp">Publica Un Anuncio</a>
+                        </li>
+                        <li>
+                            <a href="#">Mis Favoritos</a>
+                        </li>
+                        <li>
+                            <a href="#">Mis Anuncios</a>
+                        </li>
+                        <li>
+                            <a href="#">Mis Mensajes</a>
+                        </li>
+                        <li>
+                            <a href="Editar_Datos_Cliente.jsp">Mi Perfil</a>
+                        </li>
+                        <li>
+                            <a></a>
+                        </li>
+                        <li>
+                            <a></a>
+                        </li>
+                        <li>
+                            <a></a>
+                        </li>
+                        <li>
+                            <a></a>
+                        </li>
+                        <li>
+                            <a></a>
+                        </li>
+                        <li>
+                            <a></a>
+                        </li>
+                        
+                         <li>
+                            <label  style="color:white" aligh="center">Bienvenido :<br> <%=BE.getNombre() + " "%><%=BE.getApellido() + " "%><%=BE.getRol()%></label>
+                        </li>
+                        <li>
+                            <a></a>
+                        </li>
+                        <li>
+                            <button name="btnCerrarSesion" id="btnCerrarSesion" class="btn btn-danger" onclick="Cerrar()">Cerrar Sesion</button>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>    
+    
 <div id="container">
 	<header>
-           Bienvenido <%= request.getSession().getAttribute("userId").toString() %><br>
-            <% if(!request.getSession().getAttribute("userId").equals("Invitado")){
+           Bienvenido <%=BE.getNombre() + " "%><%=BE.getApellido() + " "%><%=BE.getRol()%> <br>
+            <% if(!request.getSession().getAttribute("User").equals("Invitado")){
                 out.println("<a href='salir.jsp' style='color:red; font-size:14px;'>Salir</a>");
-                           }%>
+                           }
+            
+          
+            
+            %>
     </header>
     
-    <nav>
-    	<ul>
-        	<li><a href="index.jsp" id="btnIndex">Ir al Chat</a></li>
-                <% if(request.getSession().getAttribute("userId").equals("Invitado")){ %>
-            <li><a id="btnIngresar">Ingresar</a></li>
-            <li><a id="btnRegistrarse">Registrarse</a></li>
-            <% }else{ %>
-            <li><a  id="btnIngresar2">Ingresar</a></li>
-            <li><a id="btnRegistrarse2">Registrarse</a></li>
-            <% }%>
-        </ul>
-    </nav>
+    
     <section id="chat" class="limpiar">
     	<section id="ventanaConversacion">
             <h2>Conversación Chat</h2>
@@ -58,8 +144,9 @@ Sesiones.comprobarUsuario(request.getSession().getAttribute("userId").toString()
                 </section>
     </section>
     
+    <form action="" method="POST">
     <section id="enviarMensaje">
-        <% if(!request.getSession().getAttribute("userId").equals("Invitado")){ %>
+        <% if(!misesion.getAttribute("User").equals("")){ %>
     <textarea  id="txtMensaje" required placeholder="Escriba su mensaje..."></textarea>
     <div id="enviarMSJ">Enviar!</div>
     <% }else{ %>
@@ -67,31 +154,22 @@ Sesiones.comprobarUsuario(request.getSession().getAttribute("userId").toString()
     <div id="noEnviar">Enviar!</div>
     <% } %>
     </section>
+    
+  
+    
+    </form>
     <footer>
     
     </footer>
+    
+     
 </div>
-<div id="ingresar" title="Ingresar a Chat Mesinger">
-<form method="post" id="formuIng">
-Nombre de Usuario:<br>
-<input type="text" name="nombreIng" id="nombreIng" required><br>
-Contraseña:<br>
-<input type="password" name="passwordIng" id="passwordIng" required><br>
-<input type="submit" value="Enviar">
-</form>
-<div id="respuestaIng"></div>
-</div>
+    <%
+        }
+%>
 
-<div id="registrar" title="Registrarse">
-<form action="" method="post" id="formuReg">
-Nombre de Usuario:<br>
-<input type="text" name="nombreReg" id="nombreReg" required><br>
-Contraseña:<br>
-<input type="password" name="passwordReg" id="passwordReg" required><br>
-<input type="submit" value="Registrarse">
-</form>
-<div id="respuestaReg"></div>
-</div>
+
+
 </body>
 </html>
 

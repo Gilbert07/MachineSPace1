@@ -4,8 +4,9 @@
     Author     : Leonel
 --%>
 
-<%@page import="BLL.ChatBLL"%>
-<%@page import="Entidades.Mensaje"%>
+<%@page import="Proyecto.Dao.ChatBll"%>
+<%@page import="Proyecto.Bean.BeanChat"%>
+<%@page import="Proyecto.Bean.BeanCliente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,13 +16,19 @@
     </head>
     <body>
         <% 
+            
+        HttpSession misesion = request.getSession();
+         
+        BeanCliente BE = new BeanCliente();
+          
+        BE = (BeanCliente) misesion.getAttribute("User");
         
         String mensaje = request.getParameter("mensaje");
-        String user = request.getSession().getAttribute("userId").toString();
+        String user = misesion.getAttribute("User").toString();
         
-        Mensaje m = new Mensaje(mensaje,user);
+        BeanChat m = new BeanChat(mensaje,user);
         
-        int res = new ChatBLL().ingresarMensaje(m);
+        int res = new ChatBll().ingresarMensaje(m);
         if(res==-1){
             out.println("Error al ingresar mensaje");
         }
